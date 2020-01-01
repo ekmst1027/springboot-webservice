@@ -1,6 +1,8 @@
 package me.ekmst.webservice.web;
 
 import lombok.RequiredArgsConstructor;
+import me.ekmst.webservice.config.auth.LoginUser;
+import me.ekmst.webservice.config.auth.dto.SessionUser;
 import me.ekmst.webservice.service.posts.PostsService;
 import me.ekmst.webservice.web.dto.PostsResponseDto;
 import org.springframework.stereotype.Controller;
@@ -15,8 +17,15 @@ public class IndexController {
     private final PostsService postsService;
 
     @GetMapping("/")
-    public String index(Model model) {
+    public String index(Model model,
+                        @LoginUser SessionUser user) {
+
         model.addAttribute("posts", postsService.findAllDesc());
+
+        if(user != null) {
+            model.addAttribute("userName", user.getName());
+        }
+
         return "index";
     }
 
