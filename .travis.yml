@@ -26,8 +26,19 @@ deploy:
     bucket: ekmst-springboot-build
     region: ap-northeast-2
     skip_cleanup: true
-    zcl: private
+    acl: private
     local_dir: deploy
+    wait-until-deployed: true
+
+  - provider: codedeploy
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: ekmst-springboot-build
+    key: ekmst-springboot-webservice.zip
+    bundle_type: zip
+    application: ekmst-springboot-webservice
+    deployment_group: ekmst-springboot-webservice-group
+    region: ap-northeast-2
     wait-until-deployed: true
 
 # CI 실행 완료 시 메일로 알람
